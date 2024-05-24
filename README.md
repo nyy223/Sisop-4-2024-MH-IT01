@@ -9,14 +9,12 @@
 
 ## Ketentuan
 ### Struktur repository seperti berikut : 
-			—soal_1:
-				— inikaryakita.c
-                                    
-      —soal_2:
-      	— pastibisa.c
-				
-			—soal_3:
-				— archeology.c
+	—soal_1:
+ 		— inikaryakita.c
+        —soal_2:
+      		— pastibisa.c
+	—soal_3:
+		— archeology.c
 
 ## Soal 2
 > Nayla 5027231054
