@@ -2,19 +2,6 @@
 
 # Laporan Resmi Praktikum Sisop-3-2024-MH-IT01
 
-## Anggota
-### Nayla Raissa Azzahra (5027231054)
-### Ryan Adya Purwanto (5027231046)
-### Rafael Gunawan (5027231019)
-
-## Ketentuan
-### Struktur repository seperti berikut : 
-	—soal_1:
- 		— inikaryakita.c
-        —soal_2:
-      		— pastibisa.c
-	—soal_3:
-		— archeology.c
 
 ## Soal 2
 > Nayla 5027231054
@@ -27,8 +14,7 @@ Di soal nomor 2, terdapat folder "sensitif" yang didapatkan dari email inikaryak
 * Jika sebuah file memiliki prefix "rev," maka isi file tersebut akan langsung di-decode dengan cara membalikkan teksnya.
 2. Pada folder “rahasia-berkas”, Adfi dan timnya memutuskan untuk menerapkan kebijakan khusus. Mereka ingin memastikan bahwa folder dengan prefix "rahasia" tidak dapat diakses tanpa izin khusus. 
 * Jika seseorang ingin mengakses folder dan file pada “rahasia”, mereka harus memasukkan sebuah password terlebih dahulu (password bebas). 
-3. Setiap proses yang dilakukan akan tercatat pada logs-fuse.log dengan format :
-* [SUCCESS/FAILED]::dd/mm/yyyy-hh:mm:ss::[tag]::[information]
+3. Setiap proses yang dilakukan akan tercatat pada logs-fuse.log dengan format : [SUCCESS/FAILED]::dd/mm/yyyy-hh:mm:ss::[tag]::[information]
 * Ex:
   [SUCCESS]::01/11/2023-10:43:43::[moveFile]::[File moved successfully]
 
