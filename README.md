@@ -16,11 +16,6 @@
 			—soal_3:
 				— archeology.c
 
-## Daftar isi
-- [Soal 1](#Soal 1)
-- [Soal 2](#Soal 2)
-- [Soal 3](#Soal 3)
-
 ## Soal 1
 > Rafael (5027231019)
 ### Soal
