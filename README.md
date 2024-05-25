@@ -1008,4 +1008,4 @@ $ ./[output] -f [direktori tujuan]
 <img width="1440" alt="Screenshot 2024-05-25 at 21 23 17" src="https://github.com/nyy223/Sisop-4-2024-MH-IT01/assets/80509033/648d3f1e-7a6d-4b80-9683-9e92ce2be791">
 
 ## Soal 3
-> Nayla 5027231046
+> Ryan 5027231046
