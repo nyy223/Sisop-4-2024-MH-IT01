@@ -14,7 +14,7 @@
       	— pastibisa.c
 				
       —soal_3:
-        — archeology.c
+	        — archeology.c
 ## Daftar Isi
 - [Soal 1](#soal-1)
 - [Soal 2](#soal-2)
