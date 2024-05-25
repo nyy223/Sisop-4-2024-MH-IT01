@@ -610,5 +610,6 @@ $ ./[output] -f [direktori tujuan]
 ```
 
 #### Dokumentasi Pengerjaan
-
-#### Kendala yang dialami selama pengerjaan
+<img width="1440" alt="Screenshot 2024-05-25 at 21 21 37" src="https://github.com/nyy223/Sisop-4-2024-MH-IT01/assets/80509033/938a3df8-0c1d-44ba-a1e2-6969c2134824">
+<img width="1440" alt="Screenshot 2024-05-25 at 21 22 21" src="https://github.com/nyy223/Sisop-4-2024-MH-IT01/assets/80509033/0effc262-324f-4e47-b410-491f5fc510e4">
+<img width="1440" alt="Screenshot 2024-05-25 at 21 23 17" src="https://github.com/nyy223/Sisop-4-2024-MH-IT01/assets/80509033/648d3f1e-7a6d-4b80-9683-9e92ce2be791">
