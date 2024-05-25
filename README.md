@@ -16,6 +16,11 @@
 			—soal_3:
 				— archeology.c
 
+## Daftar isi
+- [Soal 1](#Soal 1)
+- [Soal 2](#Soal 2)
+- [Soal 3](#Soal 3)
+
 ## Soal 1
 > Rafael (5027231019)
 ### Soal
@@ -452,6 +457,7 @@ static int xmp_open(const char *path, struct fuse_file_info *fi) {
     if (is_secret_folder(path) && !handle_secret_folder_access(path)) {
             return -EACCES;
     }
+
     int res = open(fpath, fi->flags);
     if (res == -1) {
         return -errno;
@@ -490,15 +496,18 @@ static int xmp_read(const char *path, char *buf, size_t size, off_t offset, stru
         } else if (strstr(path, "rev") != NULL) {
             reverse_text(buf, &decoded);
         }
+
         if (decoded) {
             strncpy(buf, decoded, size);
             buf[size - 1] = '\0';
             free(decoded);
         }
     }
+
     log_message("SUCCESS", "readFile", path);
     return res;
 }
+
 
 static struct fuse_operations xmp_oper = {
     .getattr = xmp_getattr,
