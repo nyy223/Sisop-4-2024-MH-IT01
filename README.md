@@ -13,8 +13,8 @@
       —soal_2:
       	— pastibisa.c
 				
-			—soal_3:
-				— archeology.c
+      —soal_3:
+        — archeology.c
 ## Daftar Isi
 - [Soal 1](#soal-1)
 - [Soal 2](#soal-2)
