@@ -277,6 +277,172 @@
     }
 ##### Fungsi ini digunakan untuk membaca isi direktori. Fungsi ini mengisi buffer dengan daftar nama file dan direktori yang ada dalam direktori yang diminta.
 
+#### Fungsi custom_mkdir
+	static int custom_mkdir(const char *path, mode_t mode) {
+	    char full_path[1000];
+	    snprintf(full_path, sizeof(full_path), "%s%s", root_dir, path);
+	    int result = mkdir(full_path, mode);
+	    if (result == -1)
+	        return -errno;
+	    return 0;
+	}
+##### Fungsi ini digunakan untuk membuat direktori baru. Fungsi mkdir membuat direktori dengan mode akses yang diberikan.
+
+#### Fungsi custom_rmdir
+	static int custom_rmdir(const char *path) {
+	    char full_path[1000];
+	    snprintf(full_path, sizeof(full_path), "%s%s", root_dir, path);
+	    int result = rmdir(full_path);
+	    if (result == -1)
+	        return -errno;
+	    return 0;
+	}
+##### Fungsi ini digunakan untuk menghapus direktori kosong. Fungsi rmdir menghapus direktori yang diminta.
+
+#### Fungsi custom_rename
+	static int custom_rename(const char *from, const char *to) {
+	    char from_path[1000];
+	    char to_path[1000];
+	    snprintf(from_path, sizeof(from_path), "%s%s", root_dir, from);
+	    snprintf(to_path, sizeof(to_path), "%s%s", root_dir, to);
+	
+	    if (strstr(to, "/wm") != NULL) {
+	        char command[4096];
+	        snprintf(command, sizeof(command), "convert -gravity south -font Arial '%s' -fill white -pointsize 50 -annotate +0+0 '%s' '%s'", from_path, "inikaryakita.id", to_path);
+	        system(command);
+	
+	        if (unlink(from_path) == -1)
+	            return -errno;
+	    } else {
+	        if (rename(from_path, to_path) == -1)
+	            return -errno;
+	    }
+	    return 0;
+	}
+##### Fungsi ini digunakan untuk mengganti nama atau memindahkan file/direktori. Jika path tujuan mengandung "/wm", maka file sumber akan diberi watermark sebelum dipindahkan. Jika tidak, file/direktori hanya akan diganti namanya atau dipindahkan.
+
+#### Fungsi custom_chmod
+	static int custom_chmod(const char *path, mode_t mode) {
+	    char full_path[1000];
+	    snprintf(full_path, sizeof(full_path), "%s%s", root_dir, path);
+	    if (chmod(full_path, mode) == -1)
+	        return -errno;
+	    return 0;
+	}
+##### Fungsi ini digunakan untuk mengubah izin akses file atau direktori. Fungsi chmod mengubah mode akses dari file yang diminta.
+
+#### Fungsi custom_read
+	static int custom_read(const char *path, char *buf, size_t size, off_t offset,
+	                      struct fuse_file_info *fi) {
+	    char full_path[1000];
+	    snprintf(full_path, sizeof(full_path), "%s%s", root_dir, path);
+	
+	    const char *filename = strrchr(path, '/');
+	    if (filename == NULL) {
+	        filename = path;
+	    } else {
+	        filename++;
+	    }
+	
+	    if (strncmp(filename, "test", 4) == 0) {
+	        FILE *file = fopen(full_path, "r");
+	        if (file == NULL)
+	            return -errno;
+	
+	        size_t len = fread(buf, 1, size, file);
+	        if (len == -1) {
+	            fclose(file);
+	            return -errno;
+	        }
+	        buf[len] = '\0';
+	
+	        for (size_t i = 0; i < len / 2; i++) {
+	            char temp = buf[i];
+	            buf[i] = buf[len - i - 1];
+	            buf[len - i - 1] = temp;
+	        }
+	
+	        fclose(file);
+	        return len;
+	    } else {
+	        int fd = open(full_path, O_RDONLY);
+	        if (fd == -1)
+	            return -errno;
+	        int res = pread(fd, buf, size, offset);
+	        if (res == -1)
+	            res = -errno;
+	        close(fd);
+	        return res;
+	    }
+	}
+##### Fungsi ini digunakan untuk membaca isi file. Jika nama file diawali dengan "test", konten file akan dibaca, dibalik, dan kemudian dikembalikan. Jika tidak, fungsi akan membaca file seperti biasa.
+
+#### Fungsi custom_unlink
+	static int custom_unlink(const char *path) {
+	    char full_path[1000];
+	    snprintf(full_path, sizeof(full_path), "%s%s", root_dir, path);
+	    int result = unlink(full_path);
+	    if (result == -1)
+	        return -errno;
+	    return 0;
+	}
+##### Fungsi ini digunakan untuk menghapus file. Fungsi unlink menghapus file yang diminta.
+
+#### Fungsi custom_open
+	static int custom_open(const char *path, struct fuse_file_info *fi) {
+	    char full_path[1000];
+	    snprintf(full_path, sizeof(full_path), "%s%s", root_dir, path);
+	    int result = open(full_path, fi->flags);
+	    if (result == -1)
+	        return -errno;
+	    close(result);
+	    return 0;
+	}
+##### Fungsi ini digunakan untuk membuka file. Fungsi open membuka file dengan mode yang diminta.
+
+#### Fungsi custom_create
+	static int custom_create(const char *path, mode_t mode, struct fuse_file_info *fi) {
+	    char full_path[1000];
+	    snprintf(full_path, sizeof(full_path), "%s%s", root_dir, path);
+	    int result = creat(full_path, mode);
+	    if (result == -1)
+	        return -errno;
+	    fi->fh = result;
+	    return 0;
+	}
+##### Fungsi ini digunakan untuk membuat file baru. Fungsi creat membuat file dengan mode akses yang diberikan.
+
+#### Fungsi custom_write
+	static int custom_write(const char *path, const char *buf, size_t size, off_t offset, struct fuse_file_info *fi) {
+	    char full_path[1000];
+	    snprintf(full_path, sizeof(full_path), "%s%s", root_dir, path);
+	    int fd = open(full_path, O_WRONLY);
+	    if (fd == -1)
+	        return -errno;
+	    int res = pwrite(fd, buf, size, offset);
+	    if (res == -1)
+	        res = -errno;
+	    close(fd);
+	    return res;
+	}
+##### Fungsi ini digunakan untuk menulis data ke file. Fungsi pwrite menulis data ke file pada offset yang ditentukan.
+
+#### Struktur fuse_operations
+	    .chmod      = custom_chmod,
+	    .read       = custom_read,
+	    .unlink     = custom_unlink,
+	    .open       = custom_open,
+	    .create     = custom_create,
+	    .write      = custom_write,
+	};
+##### Struktur fuse_operations ini menghubungkan fungsi-fungsi yang telah diimplementasikan sebelumnya dengan operasi-operasi yang dapat dilakukan pada filesystem FUSE. Setiap fungsi dihubungkan dengan operasi yang sesuai, seperti getattr untuk mendapatkan atribut file, readdir untuk membaca isi direktori, mkdir untuk membuat direktori baru, dan lain sebagainya.
+
+#### Fungsi main
+	int main(int argc, char *argv[]) {
+	    umask(0);
+	    return fuse_main(argc, argv, &custom_oper, NULL);
+	}
+##### Fungsi main adalah entry point dari program. Di dalamnya, dilakukan inisialisasi dengan umask(0) untuk memastikan hak akses yang sesuai pada file yang dibuat, dan kemudian program memanggil fuse_main untuk menjalankan filesystem dengan menggunakan operasi yang telah ditentukan dalam struktur fuse_operations.
 
 ### Dokumentasi
 ![image](https://github.com/nyy223/Sisop-4-2024-MH-IT01/assets/151918510/cc743f6f-15a2-471e-a28b-368c353b9ed4)
